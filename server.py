@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 """Watch the World burn! Web App."""
-
 import os
 
 import config
@@ -9,12 +8,10 @@ import jinja2
 import webapp2
 from datetime import date, timedelta
 import traceback
-from google.appengine.api import urlfetch
-
 
 # Extend  request deadline
-urlfetch.set_default_fetch_deadline(60)
-
+import socket
+socket.setdefaulttimeout(60)
 
 
 from cache import Cache
@@ -95,6 +92,7 @@ class MainPage(webapp2.RequestHandler):
         # Get information for a specific date range
         date_range_start = date.today() - timedelta(days=2)
         date_range_end = date.today() - timedelta(days=1)
+
 
         mapid, top10 = Cache.instance().get_vals()
         if mapid is None:
