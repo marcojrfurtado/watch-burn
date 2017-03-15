@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+An example web page that creates and displays a custom Google Maps API Map Type
+for Earth Engine map tiles.  See Google Maps documentation on Custom Map Types
+for details.
+-->
+<html>
+  <head>
+    <title>Watch the World burn!</title>
+
+    <!-- Load the Google Maps API. -->
+    <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+
+    <!-- Load our JavaScript file. -->
+    <script src="/static/map.js"></script>
+     <link rel="stylesheet" type="text/css" href="/static/style.css">
+  </head>
+  <body>
+    <div id="container">
+      <div id="content">
+        <div id="header" class="block">
+          <div id="logo"><img src="/static/images/logo.png"/></div>
+          <div id="range_info">
+            <span>Daily worldwide fire alerts.</span><br/>
+            <span>Displaying worldwide fire alerts <br/>between {{ range_start }} and {{ range_end }}</span>
+          </div>
+          <span class="stretch"></span>
+        </div>
+      <!-- The element into which we render the Google Map. -->
+        <div id="map"></div>
+        <div id="footer" class="block">
+          <div id="legend">
+            <h4>Legends</h4>
+            <div>
+              <h5>Fire alerts</h5>
+              <div class="tinytext" >Represented by<br/> black squares.</div>
+            </div>
+            <div>
+              <h5>Countries</h5>
+              <h6>Color defined by the amount of alerts</h6>
+              <div id="scalecontainer">
+                <div id="upper"><div id="scale"><img src="/static/images/scale.png" style="max-width: 200px"/></div></div>
+                <div id="lower" class="tinytext">
+                  <span>1</span>
+                  <span style="float: right;">Daily Maximum</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="footer_split" style="border-left:medium black solid; height:300px;" />
+          <div id="ranking_container">
+            <h4>Ranking</h4>
+            <h5>Top 10 countries with the highest amount of fire alerts.</h5>
+            <div id="ranking">
+              <ol>
+              {% for c in countries %}
+                <li ><span id="c_name">{{ c['Country'] }}</span><span id="c_count" style="float: right;">{{ c['count']  }}</span></li>
+              {% endfor %}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="me" class="fixed_block ghub"><a href="https://github.com/marcojrfurtado">by marcojrfurtado</a></div>
+
+      <div id="about" class="extra_info fixed_block"><span class="fake-link">What is this data all about?</span></div>
+
+      <div id="information" class="extra_info fixed_block" style="display: none;">
+        <p>
+          The gloal fire alerts are extracted from the FIRMS (Fire Information for Resource Management) data.
+          FIRMS provides daily 1 kilometer resolution fire alerts derived from <a href="https://modis.gsfc.nasa.gov/">MODIS</a>.
+          To reduce computation time, we scale down the resolution of the fire alerts to 3 kilometers before aggregating them into their respective countries.
+        </p>
+        <p>
+          FIRMS provides a confidence rating ranging from 0 to 100, which determines whether a given event is a fire.
+          We simply threshold each event at a rating of 50 before displaying it into our map.
+        </p>
+      </div>
+    </div>
+    <!-- Boot our application once the body loads. -->
+    <script>
+      /**
+       * Here we get the mapid and token for the map tiles that were generated
+       * by Earth Engine using the Python script server.py and injected using
+       * the Jinja2 templating engine.
+       */
+      initialize('{{ mapid }}', '{{ token }}');
+    </script>
+  <script src="/static/about.js"></script>
+  </body>
+</html>
