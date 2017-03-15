@@ -1,0 +1,9 @@
+*.p12
+*.pem
+*.txt
+*.pyc
+ee/
+oauth2client/
+httplib2/
+.idea/
+
