@@ -1,3 +1,4 @@
+config.py
 *.p12
 *.pem
 *.txt
