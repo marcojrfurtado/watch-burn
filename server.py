@@ -90,8 +90,8 @@ class MainPage(webapp2.RequestHandler):
     def get(self):
 
         # Get information for a specific date range
-        date_range_start = date.today() - timedelta(days=2)
-        date_range_end = date.today() - timedelta(days=1)
+        date_range_start = date.today() - timedelta(days=6)
+        date_range_end = date.today() - timedelta(days=5)
 
 
         mapid, top10 = Cache.instance().get_vals()
